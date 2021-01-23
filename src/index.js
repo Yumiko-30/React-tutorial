@@ -112,6 +112,15 @@ class Game extends React.Component {
       xIsNext: step % 2 === 0,
     });
   }
+ 
+  renderHistory(move, bold) {
+    const desc = move ? 'Go to move #' + move : 'Go to game start';
+    const style =  bold ? "bold" : "normal";
+
+    return(
+      <button onClick={() => this.jumpTo(move)} style={{fontWeight: style}}>{desc}</button>
+    )       
+  }
 
   render() {
     console.log('render called');
@@ -120,13 +129,12 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move ? 'Go to move #' + move : 'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
-          {step.cells[0] && (
+          {this.renderHistory(move, move===this.state.stepNumber)}
+          {step.cells[0] && ( 
             <>
-              {' '}
+              {'  '}
               col:{step.cells[0]} row:{step.cells[1]}
             </>
           )}
